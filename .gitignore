@@ -2,6 +2,9 @@
 *.qpf
 *.bak
 *.qws
+*.rpt
+*.summary
+*.done
 db
 incremental_db
 output_files
