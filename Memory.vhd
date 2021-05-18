@@ -4,13 +4,11 @@ use std.standard.all;
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.std_logic_arith.all;	 
-use ieee.std_logic_unsigned.all;
 
 
 entity Memory is --declaring entity
-	port( dataIn,addr : in std_logic_vector(15 downto 0);
-			clk,memW : in std_logic;
+	port( dataIn, addr : in std_logic_vector(15 downto 0);
+			clk, wr : in std_logic;
 			dataOut : out std_logic_vector(15 downto 0));
 end entity;
 
@@ -23,7 +21,7 @@ begin
 	
 	process(clk)
 	begin
-		if(rising_edge(clk) and memW = '1')
+		if(rising_edge(clk) and wr = '1')
 		then
 			memArray(to_integer(unsigned(addr))) <= dataIn;
 		end if;
