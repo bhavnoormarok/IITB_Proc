@@ -4,11 +4,11 @@ use std.standard.all;
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.std_logic_arith.all;	 
-use ieee.std_logic_unsigned.all;
+--use ieee.std_logic_arith.all;	 
+--use ieee.std_logic_unsigned.all;
 
 entity Register_File is
-	port ( A1, A2, A3 : in std_logic_vector(2 down to 0);
+	port ( A1, A2, A3 : in std_logic_vector(2 downto 0);
 			D3 : in std_logic_vector (15 downto 0);
 			clk, reg_w : in std_logic;
 			D1, D2 : out std_logic_vector (15 downto 0));
