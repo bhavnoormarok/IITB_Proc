@@ -8,15 +8,13 @@ use ieee.std_logic_unsigned.all;
 
 entity Data_Path is
 	port (clk, reset : in std_logic;
-			mux_PC,w_PC,w_memory,w_IR: in std_logic;
-			mux_T1,w_T1,w_T2,w_T3:in std_logic;
-			Control_bit_ALU,w_RF: in std_logic;
-			
-			mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: in std_logic_vector(1 downto 0);
-			
-			Counter: in std_logic_vector(2 downto 0));
-			--O:  out std_logic_vector(15 downto 0);
-			--Done: out std_logic);
+		  w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF : in std_logic;
+	      Control_bit_ALU : in std_logic;
+          mux_PC, mux_T1 : in std_logic;
+	      mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: in std_logic_vector(1 downto 0);
+		  Counter: in std_logic_vector(2 downto 0);
+          IR_out, T1_out, T2_out : out std_logic_vector(15 downto 0);
+          C_out, Z_out : out std_logic);
 end entity;
 
 architecture Arch of Data_Path is
@@ -94,12 +92,12 @@ begin
     
     A2_i <= IR_o(8 downto 6)
 
-    A3_i <= IR_o(11 downto 9) when (mux_A1(1 downto 0) = "00") else
-            IR_o(8 downto 6) when (mux_A1(1 downto 0) = "01") else
-	        Counter(2 downto 0) when (mux_A1(1 downto 0) = "10") else
+    A3_i <= IR_o(11 downto 9) when (mux_A3(1 downto 0) = "00") else
+            IR_o(8 downto 6) when (mux_A3(1 downto 0) = "01") else
+	        Counter(2 downto 0) when (mux_A3(1 downto 0) = "10") else
             IR_o(5 downto 3);
     
---------------------------------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------------------------------
     -- map inputs and outputs to components
 	PC: reg_16  
