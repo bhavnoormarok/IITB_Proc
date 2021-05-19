@@ -1,3 +1,6 @@
+library work;
+use work.all;
+
 library std;
 use std.standard.all;
 library ieee;
@@ -14,7 +17,10 @@ entity Data_Path is
 			
 			mux_memory_s, mux_A1_s, mux_ALU_A_s, mux_ALU_B_s, mux_A3_s, mux_RD3_s: in std_logic_vector(1 downto 0);
 			
-			Counter: in std_logic_vector(2 downto 0));
+			Counter: in std_logic_vector(2 downto 0);
+			
+			instruction,T1,T2: out std_logic_vector(15 downto 0);
+			C_flag,Z_flag: out std_logic);
 			--O:  out std_logic_vector(15 downto 0);
 			--Done: out std_logic);
 end entity;
@@ -31,7 +37,7 @@ architecture Form of Data_Path is
 	
 	
 	Signal mux_A1_i,mux_A3_i: bus_4x3;
-	Signal A1_i, A3_i, A2_i: std_logic_vector(3 downto 0);
+	Signal A1_i, A3_i, A2_i: std_logic_vector(2 downto 0);
 	
 	Signal mux_PC_o, PC_o, mux_memory_o, memory_o, IR_o, mux_T1_o, mux_ALU_A_o:std_logic_vector(15 downto 0);
 	Signal mux_ALU_B_o, ALU_C_o,T1_o, T2_o, T3_o, RD1_o, RD2_o, mux_RD3_o:std_logic_vector(15 downto 0);
@@ -58,16 +64,16 @@ architecture Form of Data_Path is
 	end component;
 	
 	component two_one_mux_3bit is
-	port( A_1 : in std_logic_vector(15 downto 0);
-			A_0 : in std_logic_vector(15 downto 0);
+	port( A_1 : in std_logic_vector(2 downto 0);
+			A_0 : in std_logic_vector(2 downto 0);
 			op: in std_logic;
-			z : out std_logic_vector(15 downto 0));
+			z : out std_logic_vector(2 downto 0));
 	end component;
 	
 	component four_one_mux_3bit is
-	port( A_0,A_1,A_2,A_3 : in std_logic_vector(15 downto 0);
+	port( A_0,A_1,A_2,A_3 : in std_logic_vector(2 downto 0);
 			op: in std_logic_vector(1 downto 0);
-			z : out std_logic_vector(15 downto 0));
+			z : out std_logic_vector(2 downto 0));
 	end component;
 	
 	component reg_16 is
@@ -116,6 +122,8 @@ begin
 	IR: reg_16
 		port map(clk => clk, wr => w_IR, dataIn => IR_i, dataOut => IR_o);
 	
+	instruction <= IR_o;
+	
 	mux_A1_i(0) <= IR_o(11 downto 9);
 	mux_A1_i(1) <= IR_o(8 downto 6);
 	mux_A1_i(2) <= Counter;
@@ -148,13 +156,17 @@ begin
 	
 	T1_i <= mux_T1_o;
 	
-	T1: reg_16
+	T_1: reg_16
 		port map(clk => clk, wr => w_T1, dataIn => T1_i, dataOut => T1_o);
 		
+	T1<=T1_o;
+	
 	T2_i <= RD2_o;	
 		
-	T2: reg_16
+	T_2: reg_16
 		port map(clk => clk, wr => w_T2, dataIn => T2_i, dataOut => T2_o);
+	
+	T2<=T2_o;
 	
 	mux_ALU_A_i(0)(5 downto 0) <= IR_o(5 downto 0);
 	mux_ALU_A_i(0)(15 downto 6)<= "0000000000";
@@ -193,5 +205,9 @@ begin
 	
 	mux_RD3: four_one_mux_16bit
 		port map(A_0 => mux_RD3_i(0), A_1 => mux_RD3_i(1), A_2 => mux_RD3_i(2), A_3 => mux_RD3_i(3), op => mux_RD3_s, z => mux_RD3_o);
+	
+	
+	C_flag<='1';
+	Z_flag<='1';
 	
 end Form;
