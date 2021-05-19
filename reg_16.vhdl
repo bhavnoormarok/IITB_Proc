@@ -11,7 +11,7 @@ ENTITY reg_16 IS
 		 dataOut : out std_logic_vector(15 downto 0) );
 END reg_16; 
 
-ARCHITECTURE behaviour OF reg_1 IS
+ARCHITECTURE behaviour OF reg_16 IS
 
 signal reg : std_logic_vector := x"0000";
 
