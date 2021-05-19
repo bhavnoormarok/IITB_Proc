@@ -8,7 +8,7 @@ use ieee.std_logic_unsigned.all;
 
 entity Data_Path is
 	port (clk, reset : in std_logic;
-		  w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF : in std_logic;
+		  w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z : in std_logic;
 	      Control_bit_ALU : in std_logic;
           mux_PC, mux_T1 : in std_logic;
 	      mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: in std_logic_vector(1 downto 0);
@@ -19,38 +19,44 @@ end entity;
 
 architecture Arch of Data_Path is
 	
-	signal memory_addr_i,memory_data_i,PC_i,IR_i, T1_i, T2_i, ALU_A_i, ALU_B_i, T3_i, RD3_i: std_logic_vector(15 downto 0);
-	
-	signal A1_i, A2_i, A3_i: std_logic_vector(3 downto 0);
-	
-	signal memory_o, IR_o, PC_o:std_logic_vector(15 downto 0);
-	signal ALU_C_o,T1_o, T2_o, T3_o, RD1_o, RD2_o :std_logic_vector(15 downto 0);
-	
-	component ALU is 
-	    port (A,B :in std_logic_vector(15 downto 0) ;
-			  op : in std_logic;
-			  ALU_out : out std_logic_vector(15 downto 0);
-			  Z,Cout: out std_logic);
-	end component;
-	
-	component reg_16 is
-	    port ( clk, wr : in std_logic;
-		       dataIn : in std_logic_vector(15 downto 0);
-		       dataOut : out std_logic_vector(15 downto 0) );
-	end component;
-	
-	component Memory is --declaring entity
-	    port( dataIn, addr : in std_logic_vector(15 downto 0);
-			  clk, wr : in std_logic;
-			  dataOut : out std_logic_vector(15 downto 0));
-	end component;
-	
-	component Register_File is
-	    port ( A1, A2, A3 : in std_logic_vector(2 downto 0);
-			   D3 : in std_logic_vector (15 downto 0);
-			   clk, wr : in std_logic;
-			   D1, D2 : out std_logic_vector (15 downto 0));
-	end component;
+signal memory_addr_i,memory_data_i,PC_i,IR_i, T1_i, T2_i, ALU_A_i, ALU_B_i, T3_i, RD3_i: std_logic_vector(15 downto 0);
+signal A1_i, A2_i, A3_i: std_logic_vector(3 downto 0);
+signal memory_o, IR_o, PC_o:std_logic_vector(15 downto 0);
+signal ALU_C_o, T1_o, T2_o, T3_o, RD1_o, RD2_o :std_logic_vector(15 downto 0);
+signal C_i, Z_i, C_o, Z_o : std_logic;
+
+component ALU is 
+    port (A,B :in std_logic_vector(15 downto 0) ;
+		  op : in std_logic;
+		  ALU_out : out std_logic_vector(15 downto 0);
+		  Z,Cout: out std_logic);
+end component;
+
+component reg_16 is
+    port ( clk, wr : in std_logic;
+	       dataIn : in std_logic_vector(15 downto 0);
+	       dataOut : out std_logic_vector(15 downto 0));
+end component;
+
+component reg_1 is
+	 port ( clk, wr : in std_logic;
+		 dataIn : in std_logic;
+		 dataOut : out std_logic );
+end reg_1; 
+
+component Memory is --declaring entity
+    port( dataIn, addr : in std_logic_vector(15 downto 0);
+		  clk, wr : in std_logic;
+		  dataOut : out std_logic_vector(15 downto 0));
+end component;
+
+component Register_File is
+    port ( A1, A2, A3 : in std_logic_vector(2 downto 0);
+		   D3 : in std_logic_vector (15 downto 0);
+		   clk, wr : in std_logic;
+		   D1, D2 : out std_logic_vector (15 downto 0));
+end component;
+
 begin
     -- assign inputs using muxes
 	memory_addr_i <= ALU_C_o when (mux_memory(1 downto 0) = "00") else
@@ -90,7 +96,7 @@ begin
             IR_o(8 downto 6) when (mux_A1(1 downto 0) = "01") else
 	        Counter(2 downto 0);
     
-    A2_i <= IR_o(8 downto 6)
+    A2_i <= IR_o(8 downto 6);
 
     A3_i <= IR_o(11 downto 9) when (mux_A3(1 downto 0) = "00") else
             IR_o(8 downto 6) when (mux_A3(1 downto 0) = "01") else
@@ -119,9 +125,21 @@ begin
 		port map(clk => clk, wr => w_T2, dataIn => T2_i, dataOut => T2_o);
 	
 	ALUnit: ALU
-		port map(A => ALU_A_i, B => ALU_B_i, op => Control_bit_ALU, ALU_out => ALU_C_o);
+		port map(A => ALU_A_i, B => ALU_B_i, op => Control_bit_ALU, ALU_out => ALU_C_o, Cout <= C_i, Z <= Z_i);
 	
 	T3: reg_16
 		port map(clk => clk, wr => w_T3, dataIn => T3_i, dataOut => T3_o);
+    
+    C : reg_1
+        port map(clk => clk, wr => w_C, dataIn => C_i, dataOut <= C_o);
+    
+    Z : reg_1
+        port map(clk => clk, wr => w_Z, dataIn => Z_i, dataOut <= Z_o);
+
+    IR_out <= IR_o;
+    T1_out <= T1_o;
+    T2_out <= T2_o;
+    Z_out <= Z_o;
+    C_out <= C_o;
 	
 end Arch;
