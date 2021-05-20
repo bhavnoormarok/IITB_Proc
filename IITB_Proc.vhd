@@ -10,13 +10,13 @@ entity IITB_Proc is
 end entity;
 
 architecture Form of iitb_proc is 
-	component DFlipFlop_alt is
+	component DFlipFlop is
 		port( clk,rst : in std_logic;
-			state_In :in integer range 0 to 40;
-			state_Out :out integer range 0 to 40);
+		state_In :in integer range 0 to 40;
+		state_Out : out integer range 0 to 40);
 	end component;
 
-	component StateFunc_alt is
+	component StateFunc is
 		port(
 			state_In :in integer range 0 to 40;
 			IR_out,T1_out,T2_out: in std_logic_vector(15 downto 0);
@@ -24,7 +24,7 @@ architecture Form of iitb_proc is
 			state_Out :out integer range 0 to 40);
 	end component;
 
-	component OutputFunc_alt is
+	component OutputFunc is
 		port( state_In :  integer range 0 to 40;
 				mux_PC,w_PC,w_memory,w_IR: out std_logic;
 				mux_T1,w_T1,w_T2,w_T3: out std_logic;
@@ -55,12 +55,12 @@ architecture Form of iitb_proc is
 	signal C_out,Z_out: std_logic;
 
 begin
-		state : StateFunc_alt
+		state : StateFunc
 			port map(state_In, IR_out, T1_out, T2_out, C_out, Z_out, state_Out);
-		output : OutputFunc_alt
+		output : OutputFunc
 			port map(state_In,mux_PC,w_PC,w_memory,w_IR,mux_T1,w_T1,w_T2,w_T3,
 			Control_bit_ALU,w_RF,w_C,w_Z,mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3,Counter);
-		dff : DFlipFlop_alt
+		dff : DFlipFlop
 			port map(clk => clk,rst => reset, state_In => state_Out, state_Out => state_In);
 		DP : Data_Path
 			port map(clk,w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z,Control_bit_ALU,
