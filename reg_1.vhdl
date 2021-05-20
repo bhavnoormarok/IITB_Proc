@@ -5,22 +5,22 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-ENTITY reg_1 IS
+entity reg_1 is
 	 PORT ( clk, wr : in std_logic;
 		 dataIn : in std_logic;
 		 dataOut : out std_logic );
-END reg_1; 
+end entity; 
 
-ARCHITECTURE behaviour OF reg_1 IS
+architecture behaviour of reg_1 is
 signal reg : std_logic := '0';
-BEGIN
+begin
     dataOut <= reg;    
-	 PROCESS(clk)
-	 BEGIN
-		IF (rising_edge(clk) and wr = '1') THEN
+	 process(clk)
+	 begin
+		if (rising_edge(clk) and wr = '1') then
 			reg <= dataIn;
-		END IF;
-	END PROCESS;
-END behaviour;
+		end if;
+	end process;
+end architecture;
 	
 --	currently at reset=1, 0 is assigned.
