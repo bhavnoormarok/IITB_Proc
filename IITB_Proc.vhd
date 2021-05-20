@@ -7,7 +7,8 @@ use ieee.numeric_std.all;
 
 entity IITB_Proc is 
 	port (clk, reset : in std_logic;
-			currState : out integer range 0 to 40);
+			currState : out integer range 0 to 40;
+			currPC,currMemAddr : out std_logic_vector(15 downto 0));
 end entity;
 
 architecture Form of IITB_proc is 
@@ -42,7 +43,8 @@ architecture Form of IITB_proc is
 	      mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: in std_logic_vector(1 downto 0);
 		  Counter: in std_logic_vector(2 downto 0);
           IR_out, T1_out, T2_out : out std_logic_vector(15 downto 0);
-          C_out, Z_out : out std_logic);
+          C_out, Z_out : out std_logic;
+			 PC_out,mem_addr : out std_logic_vector(15 downto 0));
 	end component;
 	
 	signal operation_In,operation_Out : integer range 0 to 20;
@@ -66,6 +68,6 @@ begin
 		DP : Data_Path
 			port map(clk,w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z,Control_bit_ALU,
           mux_PC, mux_T1, mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3,
-		    Counter,IR_out, T1_out, T2_out, C_out, Z_out);
+		    Counter,IR_out, T1_out, T2_out, C_out, Z_out,currPC,currMemAddr);
 		currState <= state_In;
 end Form;

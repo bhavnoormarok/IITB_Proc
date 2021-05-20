@@ -12,7 +12,8 @@ entity Data_Path is
 	      mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: in std_logic_vector(1 downto 0);
 		  Counter: in std_logic_vector(2 downto 0);
           IR_out, T1_out, T2_out : out std_logic_vector(15 downto 0);
-          C_out, Z_out : out std_logic);
+          C_out, Z_out : out std_logic;
+			 PC_out,mem_addr : out std_logic_vector(15 downto 0));
 end entity;
 
 architecture Arch of Data_Path is
@@ -139,5 +140,6 @@ begin
     T2_out <= T2_o;
     Z_out <= Z_o;
     C_out <= C_o;
-	
+	 PC_out <= PC_o;
+	 mem_addr <= memory_addr_i;
 end Arch;
