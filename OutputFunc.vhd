@@ -15,7 +15,6 @@ entity OutputFunc is
 end entity;
 
 architecture reader of OutputFunc is
-
 begin
 	process (state_In)
 	begin
@@ -64,9 +63,8 @@ begin
 			mux_RD3<="01";
 			w_RF<='1';
 		elsif (state_In = 6) then
-		
 		elsif (state_In = 7) then
-		
+--		w_RD3 <= '1'
 		elsif (state_In = 8) then
 		
 		elsif (state_In=9) then
@@ -97,7 +95,31 @@ begin
 			mux_ALU_A<="10";
 			mux_ALU_B <= "11";
 			Control_bit_ALU<='1';
-			
+		elsif (state_In=16) then
+			mux_PC<='1';
+			w_PC<='1';
+			mux_A1<="01";
+		elsif (state_In>=17 and state_In<=24) then
+			mux_T1<='1';
+			w_T1<='1';
+			Control_bit_ALU<='1';
+			mux_memory<="11";
+			mux_ALU_A<="01";
+			mux_A3<="10";
+			mux_RD3<="11";
+			Counter <= std_logic_vector(to_unsigned( (state_In -17), 3));
+--			w_RD3="1"
+		elsif (state_In>=25 and state_In<=32) then
+			mux_T1<='1';
+			w_T1<='1';
+			Control_bit_ALU<='1';
+			mux_memory<="11";
+			w_memory <= '1';
+			mux_ALU_A<="01";
+			mux_A1 <= "10";
+			Counter <= std_logic_vector(to_unsigned( (state_In -25), 3));
+
+		
 		-- Add your outputs here
 			
 			
