@@ -117,7 +117,7 @@ begin
 			mux_A3<="10";
 			mux_RD3<="11";
 			Counter <= std_logic_vector(to_unsigned( (state_In -17), 3));
---			w_RD3="1"
+			w_RF <= '1';
 		elsif (state_In>=25 and state_In<=32) then
 			mux_T1<='1';
 			w_T1<='1';

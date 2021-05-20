@@ -38,8 +38,10 @@ begin
 				state_Out <= 3;
 			elsif (IR_out(15 downto 12)="0010") then
 				state_Out <= 4;
-			elsif (IR_out(15 downto 12)="1100") then
+			elsif (IR_out(15 downto 12)="1100" and T1_out = T2_out) then
 				state_Out <= 15;
+			elsif (IR_out(15 downto 12)="1100" and T1_out /= T2_out) then
+				state_Out <= 1;
 			end if;
 		elsif (state_In=3) then
 			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010") then 
@@ -90,7 +92,7 @@ begin
 		elsif (state_In = 14) then
 			state_Out <= 1;
 		elsif (state_In = 15) then
-			state_Out <= 1;
+			state_Out <= 0;
 		elsif (state_In>=17 and State_In< 24) then
 			state_Out<= (State_In+1);
 		elsif (state_In = 24) then
