@@ -4,6 +4,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library work;
+use work.Types.all;
+
 entity Data_Path is
 	port (clk : in std_logic;
 		  w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z : in std_logic;
@@ -13,7 +16,9 @@ entity Data_Path is
 		  Counter: in std_logic_vector(2 downto 0);
           IR_out, T1_out, T2_out, T3_out : out std_logic_vector(15 downto 0);
           C_out, Z_out : out std_logic;
-			 PC_out,mem_addr : out std_logic_vector(15 downto 0));
+			 PC_out,mem_addr : out std_logic_vector(15 downto 0);
+			 mem_allOut : out memRegArray;
+			 reg_allOut : out regArray);
 end entity;
 
 architecture Arch of Data_Path is
@@ -46,14 +51,16 @@ end component;
 component Memory is --declaring entity
     port( dataIn, addr : in std_logic_vector(15 downto 0);
 		  clk, wr : in std_logic;
-		  dataOut : out std_logic_vector(15 downto 0));
+		  dataOut : out std_logic_vector(15 downto 0);
+		  allOut : out memRegArray);
 end component;
 
 component Register_File is
     port ( A1, A2, A3 : in std_logic_vector(2 downto 0);
 		   D3 : in std_logic_vector (15 downto 0);
 		   clk, wr : in std_logic;
-		   D1, D2 : out std_logic_vector (15 downto 0));
+		   D1, D2 : out std_logic_vector (15 downto 0);
+			allOut : out regArray);
 end component;
 
 begin
@@ -109,13 +116,13 @@ begin
 		port map(clk => clk, wr => w_PC, dataIn => PC_i, dataOut => PC_o);
 	
 	mem: Memory
-		port map(dataIn => memory_data_i, addr => memory_addr_i, clk => clk, wr => w_memory, dataOut => memory_o);
+		port map(dataIn => memory_data_i, addr => memory_addr_i, clk => clk, wr => w_memory, dataOut => memory_o, allOut => mem_allOut);
 	
 	IR: reg_16
 		port map(clk => clk, wr => w_IR, dataIn => IR_i, dataOut => IR_o);
 	
 	RF: Register_File
-		port map(A1 => A1_i, A2 => A2_i, A3 => A3_i, D3 => RD3_i, clk => clk, wr => w_RF, D1 => RD1_o, D2 => RD2_o);
+		port map(A1 => A1_i, A2 => A2_i, A3 => A3_i, D3 => RD3_i, clk => clk, wr => w_RF, D1 => RD1_o, D2 => RD2_o, allOut => reg_allOut);
 
 	T1: reg_16
 		port map(clk => clk, wr => w_T1, dataIn => T1_i, dataOut => T1_o);

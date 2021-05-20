@@ -5,17 +5,19 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library work;
+use work.Types.all;
 
 entity Memory is --declaring entity
 	port( dataIn, addr : in std_logic_vector(15 downto 0);
 			clk, wr : in std_logic;
-			dataOut : out std_logic_vector(15 downto 0));
+			dataOut : out std_logic_vector(15 downto 0);
+			allOut : out memRegArray);
 end entity;
 
 architecture Arch of Memory is --declaring architecture
 	
-	type regArray is array(127 downto 0) of std_logic_vector(15 downto 0); --defining type to implement memory
-	signal memArray : regArray := (
+	signal memArray : memRegArray := (
 		0 => x"104b",
 		1 => x"6000",
 		2 => x"c042",
@@ -51,5 +53,6 @@ begin
 	end process;
 	
 	dataOut <= memArray(to_integer(unsigned(addr(6 downto 0))));
+	allOut <= memArray;
 
 end architecture;

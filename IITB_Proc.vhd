@@ -2,13 +2,18 @@ library std;
 use std.standard.all;
 library ieee;
 
+library work;
+use work.Types.all;
+
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity IITB_Proc is 
 	port (clk, reset : in std_logic;
 			currState : out integer range 0 to 40;
-			currPC,currMemAddr,currT1,currT2,currT3,currIR : out std_logic_vector(15 downto 0));
+			currPC,currMemAddr,currT1,currT2,currT3,currIR : out std_logic_vector(15 downto 0);
+			currMemAll : out memRegArray;
+			currRegAll : out regArray);
 end entity;
 
 architecture Form of IITB_proc is 
@@ -44,7 +49,9 @@ architecture Form of IITB_proc is
 		  Counter: in std_logic_vector(2 downto 0);
           IR_out, T1_out, T2_out, T3_out : out std_logic_vector(15 downto 0);
           C_out, Z_out : out std_logic;
-			 PC_out,mem_addr : out std_logic_vector(15 downto 0));
+			 PC_out,mem_addr : out std_logic_vector(15 downto 0);
+			 mem_allOut : out memRegArray;
+			 reg_allOut : out regArray);
 	end component;
 	
 	signal operation_In,operation_Out : integer range 0 to 20;
@@ -68,7 +75,7 @@ begin
 		DP : Data_Path
 			port map(clk,w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z,Control_bit_ALU,
           mux_PC, mux_T1, mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3,
-		    Counter,IR_out, T1_out, T2_out, currT3, C_out, Z_out,currPC,currMemAddr);
+		    Counter,IR_out, T1_out, T2_out, currT3, C_out, Z_out,currPC,currMemAddr,currMemAll,currRegAll);
 		currState <= state_In;
 		currIR <= IR_out;
 		currT1 <= T1_out;
