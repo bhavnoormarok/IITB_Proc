@@ -63,10 +63,19 @@ begin
 			mux_RD3<="01";
 			w_RF<='1';
 		elsif (state_In = 6) then
+			mux_A3<="00";
+			mux_RD3<="10";
+			w_RF<='1';
 		elsif (state_In = 7) then
---		w_RD3 <= '1'
+			mux_A3<="00";
+			mux_RD3<="00";
+			w_RF<='1';
 		elsif (state_In = 8) then
-		
+			mux_PC<='0';
+			w_PC<='1';
+			mux_ALU_A<="10";
+			mux_ALU_B<="10";
+			Control_bit_ALU<='1';
 		elsif (state_In=9) then
 			w_T1 <= '1';
 		elsif (state_In=10) then

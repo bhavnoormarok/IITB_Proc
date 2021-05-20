@@ -23,10 +23,12 @@ begin
 				state_Out <= 9;
 			elsif (IR_out(15 downto 12)="0101" or IR_out(15 downto 12)="0100") then
 				state_Out <= 12;
-			elsif( IR_out(15 downto 12)="1001") then
+			elsif( IR_out(15 downto 12)="1001" or IR_out(15 downto 12)="1000") then
 				state_Out <= 7;
 			elsif( IR_out(15 downto 12)="0111" or IR_out(15 downto 12)="0111") then
 				state_Out <= 9;
+			elsif( IR_out(15 downto 12)="0011") then
+				state_Out <= 6;
 			--
 			end if;
 		elsif (state_In=1) then
@@ -52,11 +54,17 @@ begin
 				state_Out <= 1;
 			end if;
 		elsif (state_In = 6) then
+			if (IR_out(15 downto 12)="0011") then
+				state_Out <= 1;
+			end if;
 		elsif (state_In = 7) then
 			if (IR_out(15 downto 12)="1001") then 
 				state_Out <= 16;
+			elsif (IR_out(15 downto 12)="1000") then
+				state_Out <= 8;
 			end if;
 		elsif (state_In = 8) then
+			state_Out <= 0;
 		elsif (state_In = 9) then
 			if (IR_out(15 downto 12) = "0001") then
 				state_Out <= 10;
