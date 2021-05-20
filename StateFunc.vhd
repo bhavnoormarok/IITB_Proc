@@ -14,7 +14,7 @@ end entity;
 architecture reader of StateFunc is
 	
 begin
-	process (state_In, IR_out, T1_out, T2_out)
+	process (state_In, IR_out, T1_out, T2_out, C_out, Z_out)
 	begin
 		if (state_In=0) then 
 			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010" or IR_out(15 downto 12) = "1100") then 
@@ -29,7 +29,7 @@ begin
 				state_Out <= 9;
 			elsif( IR_out(15 downto 12)="0011") then
 				state_Out <= 6;
-			--
+			
 			end if;
 		elsif (state_In=1) then
 			state_Out <= 0;
@@ -44,12 +44,42 @@ begin
 				state_Out <= 1;
 			end if;
 		elsif (state_In=3) then
-			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010") then 
-				state_Out <= 5;
+			if (IR_out(15 downto 12)="0000") then 
+				if (IR_out(1 downto 0)="10" and C_out='0') then
+					state_Out <= 1;
+				elsif (IR_out(1 downto 0)="01" and Z_out='0') then
+					state_Out <= 1;
+				else 
+					state_Out <= 5;
+				end if;
+					
+			elsif (IR_out(15 downto 12)="0010") then 
+				if (IR_out(1 downto 0)="10" and C_out='0') then
+					state_Out <= 1;
+				elsif (IR_out(1 downto 0)="01" and Z_out='0') then
+					state_Out <= 1;
+				else 
+					state_Out <= 5;
+				end if;
 			end if;
 		elsif (state_In=4) then
-			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010") then 
-				state_Out <= 5;
+			if (IR_out(15 downto 12)="0000") then 
+				if (IR_out(1 downto 0)="10" and C_out='0') then
+					state_Out <= 1;
+				elsif (IR_out(1 downto 0)="01" and Z_out='0') then
+					state_Out <= 1;
+				else 
+					state_Out <= 5;
+				end if;
+				
+			elsif (IR_out(15 downto 12)="0010") then 
+				if (IR_out(1 downto 0)="10" and C_out='0') then
+					state_Out <= 1;
+				elsif (IR_out(1 downto 0)="01" and Z_out='0') then
+					state_Out <= 1;
+				else 
+					state_Out <= 5;
+				end if;
 			end if;
 		elsif (state_In=5) then
 			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010") then 
