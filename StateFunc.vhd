@@ -17,14 +17,13 @@ begin
 	process (state_In, IR_out, T1_out, T2_out)
 	begin
 		if (state_In=0) then 
-			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010" IR_out(15 downto 12) <= "1100") then 
+			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010" or IR_out(15 downto 12) = "1100") then 
 				state_Out <= 2;
-			elsif (IR_out(15 downto 12) = "0001")
+			elsif (IR_out(15 downto 12) = "0001") then
 				state_Out <= 9;
-			elsif (IR_out(15 downto 12)="0101" or IR_out(15 downto 12)="0100")
+			elsif (IR_out(15 downto 12)="0101" or IR_out(15 downto 12)="0100") then
 				state_Out <= 12;
 			--
-			
 			end if;
 		elsif (state_In=1) then
 			state_Out <= 0;
