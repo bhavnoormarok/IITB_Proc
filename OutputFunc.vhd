@@ -57,8 +57,10 @@ begin
 		elsif (state_In=4) then  -- NAND_s2
 			mux_ALU_A<="01";
 			mux_ALU_B<="01";
+			w_Z<='1';
+			w_C<='1';
 			w_T3<='1';
-		elsif (state_In=5) then  -- ADD_s3/NAND_s3
+		elsif (state_In=5) then  
 			mux_A3<="11";
 			mux_RD3<="01";
 			w_RF<='1';
@@ -127,12 +129,6 @@ begin
 			mux_ALU_A<="01";
 			mux_A1 <= "10";
 			Counter <= std_logic_vector(to_unsigned( (state_In -25), 3));
-
-		
-		-- Add your outputs here
-			
-			
-			
 			
 		end if;		
 	end process;
