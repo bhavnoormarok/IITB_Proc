@@ -14,7 +14,7 @@ end entity;
 
 architecture Arch of Memory is --declaring architecture
 	
-	type regArray is array(128 downto 0) of std_logic_vector(15 downto 0); --defining type to implement memory
+	type regArray is array(127 downto 0) of std_logic_vector(15 downto 0); --defining type to implement memory
 	signal memArray : regArray := (
 		0 => x"104b",
 		1 => x"6000",
@@ -46,10 +46,10 @@ begin
 	begin
 		if(rising_edge(clk) and wr = '1')
 		then
-			memArray(to_integer(signed(addr))) <= dataIn;
+			memArray(to_integer(unsigned(addr(6 downto 0)))) <= dataIn;
 		end if;
 	end process;
 	
-	dataOut <= memArray(to_integer(signed(addr)));
+	dataOut <= memArray(to_integer(unsigned(addr(6 downto 0))));
 
 end architecture;
