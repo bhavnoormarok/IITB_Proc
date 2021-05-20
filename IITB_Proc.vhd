@@ -6,10 +6,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity IITB_Proc is 
-	port (clk, reset : in std_logic);
+	port (clk, reset : in std_logic;
+			currState : out integer range 0 to 40);
 end entity;
 
-architecture Form of iitb_proc is 
+architecture Form of IITB_proc is 
 	component DFlipFlop is
 		port( clk,rst : in std_logic;
 		state_In :in integer range 0 to 40;
@@ -66,4 +67,5 @@ begin
 			port map(clk,w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z,Control_bit_ALU,
           mux_PC, mux_T1, mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3,
 		    Counter,IR_out, T1_out, T2_out, C_out, Z_out);
+		currState <= state_In;
 end Form;

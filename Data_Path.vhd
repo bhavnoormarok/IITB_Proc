@@ -80,7 +80,7 @@ begin
                T1_o when (mux_ALU_A(1 downto 0) = "01") else
 	           PC_o;
 
-    ALU_B_i <= std_logic_vector(to_signed(2, 16)) when (mux_ALU_B(1 downto 0) = "00") else
+    ALU_B_i <= std_logic_vector(to_signed(1, 16)) when (mux_ALU_B(1 downto 0) = "00") else
                T2_o when (mux_ALU_B(1 downto 0) = "01") else
 	           std_logic_vector(resize(signed(IR_o(8 downto 0)), 16)) when (mux_ALU_B(1 downto 0) = "10") else
                std_logic_vector(resize(signed(IR_o(5 downto 0)), 16));
