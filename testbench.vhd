@@ -8,11 +8,11 @@ entity testbench is
 end entity;
 
 architecture test_archi of testbench is
-	signal x: std_logic_vector(15 downto 0);
-	signal y: std_logic_vector(15 downto 0);
-	signal cin: std_logic;
-	signal sum:std_logic_vector(15 downto 0);
-	signal carry:std_logic;
+	signal A: std_logic_vector(15 downto 0);
+	signal B: std_logic_vector(15 downto 0);
+	signal OP: std_logic;
+	signal ALU_out:std_logic_vector(15 downto 0);
+	signal Z,Cout:std_logic;
 	component ALU is
 	port (A,B :in std_logic_vector(15 downto 0) ;
 		op : in std_logic;

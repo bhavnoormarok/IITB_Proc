@@ -13,14 +13,14 @@ END reg_16;
 
 ARCHITECTURE behaviour OF reg_16 IS
 
-signal reg : std_logic_vector := x"0000";
+signal reg : std_logic_vector(15 downto 0) := x"0000";
 
 BEGIN
      
     dataOut <= reg;    
-	PROCESS (clock)
+	PROCESS (clk)
 	BEGIN
-	    IF (rising_edge(clock) and wr = '1') THEN
+	    IF (rising_edge(clk) and wr = '1') THEN
 			reg <= dataIn;
 		END IF;
 	END PROCESS;

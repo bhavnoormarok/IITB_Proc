@@ -14,10 +14,10 @@ END reg_1;
 ARCHITECTURE behaviour OF reg_1 IS
 signal reg : std_logic := '0';
 BEGIN
-     dataOut <= reg    
-	 PROCESS (clock)
+    dataOut <= reg;    
+	 PROCESS(clk)
 	 BEGIN
-		IF (rising_edge(clock) and wr = '1') THEN
+		IF (rising_edge(clk) and wr = '1') THEN
 			reg <= dataIn;
 		END IF;
 	END PROCESS;
