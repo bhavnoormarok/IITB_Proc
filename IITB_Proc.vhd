@@ -1,10 +1,9 @@
 library std;
 use std.standard.all;
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.std_logic_arith.all;	 
-use ieee.std_logic_unsigned.all;
 
 entity IITB_Proc is 
 	port (clk, reset : in std_logic);
@@ -14,7 +13,7 @@ architecture Form of iitb_proc is
 	component DFlipFlop_alt is
 		port( clk,rst : in std_logic;
 			state_In :in integer range 0 to 40;
-			state_Out :in integer range 0 to 40);
+			state_Out :out integer range 0 to 40);
 	end component;
 
 	component StateFunc_alt is
@@ -26,7 +25,7 @@ architecture Form of iitb_proc is
 	end component;
 
 	component OutputFunc_alt is
-		port( state :  integer range 0 to 40;
+		port( state_In :  integer range 0 to 40;
 				mux_PC,w_PC,w_memory,w_IR: out std_logic;
 				mux_T1,w_T1,w_T2,w_T3: out std_logic;
 				Control_bit_ALU,w_RF,w_C,w_Z: out std_logic;

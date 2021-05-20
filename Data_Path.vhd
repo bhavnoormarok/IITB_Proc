@@ -87,7 +87,7 @@ begin
     
     RD3_i <= PC_o when (mux_RD3(1 downto 0) = "00") else
              T3_o when (mux_RD3(1 downto 0) = "01") else
-	         std_logic_vector(resize(signed(IR_o(8 downto 0)), 16)) when (mux_RD3(1 downto 0) = "10") else
+				 (IR_o(8 downto 0) & "0000000") when (mux_RD3(1 downto 0) = "10") else
              memory_o;
     
     A1_i <= IR_o(11 downto 9) when (mux_A1(1 downto 0) = "00") else
