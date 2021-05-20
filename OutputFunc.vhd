@@ -63,8 +63,40 @@ begin
 			mux_A3<="11";
 			mux_RD3<="01";
 			w_RF<='1';
-	
-			
+		elsif (state_In = 6) then
+		
+		elsif (state_In = 7) then
+		
+		elsif (state_In = 8) then
+		
+		elsif (state_In=9) then
+			w_T1 <= '1';
+		else  (state_In=10) then
+			mux_ALU_A <= "01";
+			mux_ALU_B <= "11";
+			Control_bit_ALU <= '1';
+			w_T3 <= '1';
+			w_C <= '1';
+			w_X <= '1';
+		elsif (state_In=11) then
+			mux_A3 <= "01";
+			mux_RD3 <= "01";
+			w_RD3 <= '1';
+		elsif (state_In=12) then
+			mux_A1 <= "01";
+			w_T1 <= "1";
+		elsif (state_In=13) then
+			mux_memory <= "10";
+			mux_RD3 <= "11";
+			w_RD3 <= '1';
+		elsif (state_In=14) then
+			mux_memory <= "10";
+			w_memory <= '1';
+		elsif (state_In=15) then
+			w_PC<='1';
+			mux_ALU_A<="10";
+			mux_ALU_B <= "11";
+			Control_bit_ALU<='1';
 			
 		-- Add your outputs here
 			
