@@ -39,10 +39,8 @@ begin
 				state_Out <= 3;
 			elsif (IR_out(15 downto 12)="0010") then
 				state_Out <= 4;
-			elsif (IR_out(15 downto 12)="1100" and T1_out = T2_out) then
-				state_Out <= 15;
-			elsif (IR_out(15 downto 12)="1100" and T1_out /= T2_out) then
-				state_Out <= 1;
+			elsif (IR_out(15 downto 12)="1100") then
+				state_Out <= 39;
 			end if;
 		elsif (state_In=3) then
 			if (IR_out(15 downto 12)="0000") then 
@@ -132,6 +130,12 @@ begin
 			state_Out<= (State_In+1);
 		elsif (state_In = 32) then
 			state_Out <= 1;
+		elsif (state_In = 39) then
+			if (T1_out /= T2_out) then
+				state_Out <= 1;
+			else
+				state_Out <= 15;
+			end if;
 		end if;
 	end process;
 

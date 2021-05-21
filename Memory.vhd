@@ -50,10 +50,8 @@ architecture Arch of Memory is --declaring architecture
 		----------------------
 		
 		----For checking SA-------
-		0 => x"300b",
-		1=> x"3261",
-		2=> x"7000",
-		
+		0 => x"c044",
+		4 => x"1111",
 		------------
 --		1 => x"32b8",
 --		2 => x"0050",

@@ -18,7 +18,7 @@ end entity; -- compnent which implements the 8 16-bit registers
 
 architecture Arch of Register_file is 
 
-signal reg : regArray := (others => x"0000");
+signal reg : regArray := (0 => x"0001", 1 => x"0001", others => x"0000");
 
 begin
 
