@@ -12,12 +12,13 @@ entity OutputFunc is
 				Control_bit_ALU,w_RF,w_C,w_Z: out std_logic;
 				mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: out std_logic_vector(1 downto 0);
 				Counter: out std_logic_vector(2 downto 0));
-end entity;
+end entity; --  component which controls the control signals sent to data path by controller FSM
 
 architecture reader of OutputFunc is
 begin
 	process (state_In)
 	begin
+		-- initialize the outputs signal with zeros
 		mux_PC<='0';
 		w_PC<='0';
 		w_memory<='0';
@@ -37,14 +38,15 @@ begin
 		mux_A3<="00";
 		mux_RD3<="00";
 		Counter<="000";
-		if (state_In=0) then   -- The initial common state_In for all operation_Ins
-			mux_memory<="01";
-			w_IR<='1';
-		elsif (state_In=1) then  		--common state PC+2 
-			w_PC<='1';
-			mux_ALU_A<="10";
+		-- assign non-zero signals according to state
+		if (state_In = 0) then   -- initial state for all instructions
+			mux_memory <= "01";
+			w_IR <= '1';
+		elsif (state_In = 1) then  		--common state PC+2 
+			w_PC <= '1';
+			mux_ALU_A <= "10";
 			Control_bit_ALU<='1';
-		elsif (state_In=2) then  -- ADD_s1/NAND_s1
+		elsif (state_In = 2) then  -- ADD_s1/NAND_s1
 			w_T1<='1';
 			w_T2<='1';
 		elsif (state_In=3) then  -- ADD_s2
@@ -110,7 +112,7 @@ begin
 			mux_PC<='1';
 			w_PC<='1';
 			mux_A1<="01";
-		elsif (state_In>=17 and state_In<=24) then
+		elsif (state_In>=17 and state_In<=24) then -- states controlling write in LA
 			mux_T1<='1';
 			w_T1<='1';
 			Control_bit_ALU<='1';
@@ -120,7 +122,7 @@ begin
 			mux_RD3<="11";
 			Counter <= std_logic_vector(to_unsigned( (state_In -17), 3));
 			w_RF <= '1';
-		elsif (state_In>=25 and state_In<=32) then
+		elsif (state_In>=25 and state_In<=32) then -- states controlling write in SA
 			mux_T1<='1';
 			w_T1<='1';
 			Control_bit_ALU<='1';

@@ -9,16 +9,16 @@ entity reg_1 is
 	 PORT ( clk, wr : in std_logic;
 		 dataIn : in std_logic;
 		 dataOut : out std_logic );
-end entity; 
+end entity; -- 1-bit register component
 
 architecture behaviour of reg_1 is
 signal reg : std_logic := '0';
 begin
-    dataOut <= reg;    
+    dataOut <= reg;  -- read output of the register
 	 process(clk)
 	 begin
 		if (rising_edge(clk) and wr = '1') then
-			reg <= dataIn;
+			reg <= dataIn; -- write into the register when write signal is '1'
 		end if;
 	end process;
 end architecture;

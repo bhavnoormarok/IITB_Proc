@@ -9,16 +9,16 @@ entity StateFunc is
 			IR_out,T1_out,T2_out: in std_logic_vector(15 downto 0);
 			C_out, Z_out: in std_logic;
 			state_Out :out integer range 0 to 40);
-end entity;
+end entity; -- component which implements the transition functioin for contoller FSM.
 
 architecture reader of StateFunc is
 	
 begin
 	process (state_In, IR_out, T1_out, T2_out, C_out, Z_out)
 	begin
-		if (state_In=0) then
-			state_Out <= 40;
-		elsif (state_In=40) then 
+		if (state_In=0) then -- state where instruction is written to IR 
+			state_Out <= 40; -- go to dummey state
+		elsif (state_In=40) then -- state 40 is a dummy state as IR takes one clock cycle to get stored
 			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010" or IR_out(15 downto 12) = "1100") then 
 				state_Out <= 2;
 			elsif (IR_out(15 downto 12) = "0001") then
@@ -31,11 +31,10 @@ begin
 				state_Out <= 9;
 			elsif( IR_out(15 downto 12)="0011") then
 				state_Out <= 6;
-			
-			end if;
-		elsif (state_In=1) then
-			state_Out <= 0;
-		elsif (state_In=2) then
+			end if; -- next state corresponding to different instructions
+		elsif (state_In=1) then -- state for updating PC = PC + 2
+			state_Out <= 0; -- go to initial state after PC + 2
+		elsif (state_In=2) then -- instruction specific states start here
 			if (IR_out(15 downto 12)="0000") then 
 				state_Out <= 3;
 			elsif (IR_out(15 downto 12)="0010") then
@@ -125,11 +124,11 @@ begin
 			state_Out <= 1;
 		elsif (state_In = 15) then
 			state_Out <= 0;
-		elsif (state_In>=17 and State_In< 24) then
+		elsif (state_In>=17 and State_In< 24) then -- state which implement the write operation in LA
 			state_Out<= (State_In+1);
 		elsif (state_In = 24) then
 			state_Out <= 1;
-		elsif( state_In >=25 and State_In <32) then
+		elsif( state_In >=25 and State_In <32) then -- states which implement the write operation in SA
 			state_Out<= (State_In+1);
 		elsif (state_In = 32) then
 			state_Out <= 1;

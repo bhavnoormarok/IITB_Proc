@@ -9,7 +9,7 @@ port (A,B :in std_logic_vector(15 downto 0) ;
 		op : in std_logic;
 		ALU_out : out std_logic_vector(15 downto 0);
 		Z,Cout: out std_logic);
-end entity;
+end entity; -- arithmetic unit for adding and nanding the inputs and computing the Z and C values
 
 architecture Struct of ALU is
 
@@ -20,22 +20,22 @@ architecture Struct of ALU is
 		cin: in std_logic;
 		sum: out std_logic_vector (15 downto 0);
 		cout: out std_logic);
-	end component;
+	end component; -- 16-bit adder 
 	
 	component two_one_mux_16bit is
 	port( A_1 : in std_logic_vector(15 downto 0);
 			A_0 : in std_logic_vector(15 downto 0);
 			op: in std_logic;
 			z : out std_logic_vector(15 downto 0));
-	end component;
+	end component; -- 16-bit multiplexer 
 
 begin
 	adder_16bit : Adder
 			port map(a => A, b => B, cin => '0', sum => adder_out, cout => c_out); 
 	nand_out <= (A nand B);
 	mux :	two_one_mux_16bit
-			port map(A_1 => adder_out, A_0 => nand_out, op => op, z => f);
-	Z <= not (f(0) or f(1) or f(2) or f(3) or f(4) or f(5) or f(6) or f(7) or f(8) or f(9) or f(10) or f(11) or f(12) or f(13) or f(14) or f(15));
+			port map(A_1 => adder_out, A_0 => nand_out, op => op, z => f); -- multiplex according to input signal op
+	Z <= not (f(0) or f(1) or f(2) or f(3) or f(4) or f(5) or f(6) or f(7) or f(8) or f(9) or f(10) or f(11) or f(12) or f(13) or f(14) or f(15)); -- compute Z
 	ALU_out <=f;
-	Cout <= c_out;
+	Cout <= c_out; -- compute C
 end architecture;	

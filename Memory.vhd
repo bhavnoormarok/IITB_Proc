@@ -8,15 +8,16 @@ use ieee.numeric_std.all;
 library work;
 use work.Types.all;
 
-entity Memory is --declaring entity
+entity Memory is -- declaring entity
 	port( dataIn, addr : in std_logic_vector(15 downto 0);
 			clk, wr : in std_logic;
 			dataOut : out std_logic_vector(15 downto 0);
 			allOut : out memRegArray);
-end entity;
+end entity; -- memory unit which stores 128 16-bit values
 
 architecture Arch of Memory is --declaring architecture
 	
+	-- array to store te 16-bit values
 	signal memArray : memRegArray := (
 --		0 => x"306b",
 --		1 => x"32b8",
@@ -60,7 +61,7 @@ architecture Arch of Memory is --declaring architecture
 --		4 => x"049a",
 --		5 => x"0000",
 --		6 => x"3802",
-		others => x"0000"); -- initialise with instructions
+		others => x"0000"); -- initialise with instructions.
 
 begin
 	
@@ -68,11 +69,11 @@ begin
 	begin
 		if(rising_edge(clk) and wr = '1')
 		then
-			memArray(to_integer(unsigned(addr(6 downto 0)))) <= dataIn;
+			memArray(to_integer(unsigned(addr(6 downto 0)))) <= dataIn; -- writing into memory
 		end if;
 	end process;
 	
-	dataOut <= memArray(to_integer(unsigned(addr(6 downto 0))));
-	allOut <= memArray;
+	dataOut <= memArray(to_integer(unsigned(addr(6 downto 0)))); -- memory read output
+	allOut <= memArray; -- output for simulation
 
 end architecture;

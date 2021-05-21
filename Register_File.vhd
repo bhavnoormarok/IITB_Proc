@@ -14,7 +14,7 @@ entity Register_File is
 			clk, wr : in std_logic;
 			D1, D2 : out std_logic_vector (15 downto 0);
 			allOut : out regArray);
-end entity;
+end entity; -- compnent which implements the 8 16-bit registers
 
 architecture Arch of Register_file is 
 
@@ -22,14 +22,14 @@ signal reg : regArray := (others => x"0000");
 
 begin
 
-	D1 <= reg(to_integer(unsigned(A1)));
-	D2 <= reg(to_integer(unsigned(A2)));
+	D1 <= reg(to_integer(unsigned(A1))); 
+	D2 <= reg(to_integer(unsigned(A2))); -- read outputs of the register file
 	allOut <= reg;
 	process (clk)
 	begin
 		if (rising_edge(clk) and wr = '1')
 		then
-			reg(to_integer(unsigned(A3))) <= D3;
+			reg(to_integer(unsigned(A3))) <= D3; -- write into register file when write signal is '1'
 		end if;
 	end process;
 end Arch;

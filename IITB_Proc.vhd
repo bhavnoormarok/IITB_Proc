@@ -9,13 +9,13 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity IITB_Proc is 
-	port (clk, reset : in std_logic;
+	port (clk, reset : in std_logic; -- clock and reset sigals for the FSM 
 			currState : out integer range 0 to 40;
 			currPC,currMemAddr,currT1,currT2,currT3,currIR : out std_logic_vector(15 downto 0);
 			currMemAll : out memRegArray;
 			currRegAll : out regArray;
 			currC : out std_logic;
-			currZ : out std_logic);
+			currZ : out std_logic); -- outputting everything for the simulation
 end entity;
 
 architecture Form of IITB_proc is 
@@ -23,15 +23,15 @@ architecture Form of IITB_proc is
 		port( clk,rst : in std_logic;
 		state_In :in integer range 0 to 40;
 		state_Out : out integer range 0 to 40);
-	end component;
+	end component; -- component to store the state of the global FSM
 
 	component StateFunc is
 		port(
 			state_In :in integer range 0 to 40;
 			IR_out,T1_out,T2_out: in std_logic_vector(15 downto 0);
 			C_out, Z_out: in std_logic;
-			state_Out :out integer range 0 to 40);
-	end component;
+			state_Out :out integer range 0 to 40); -- output next state based on previous state and type of instruction and values in T1, T2.
+	end component; -- component which encodes the state transition function of the FSM
 
 	component OutputFunc is
 		port( state_In :  integer range 0 to 40;
@@ -39,8 +39,8 @@ architecture Form of IITB_proc is
 				mux_T1,w_T1,w_T2,w_T3: out std_logic;
 				Control_bit_ALU,w_RF,w_C,w_Z: out std_logic;
 				mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: out std_logic_vector(1 downto 0);
-				Counter: out std_logic_vector(2 downto 0));
-	end component;
+				Counter: out std_logic_vector(2 downto 0)); -- outputs values of multiplexer and wrie controls for every state
+	end component; -- component which encodes the output function of the FSM. 
 
 	component Data_Path is
 		port (clk : in std_logic;
@@ -54,7 +54,7 @@ architecture Form of IITB_proc is
 			 PC_out,mem_addr : out std_logic_vector(15 downto 0);
 			 mem_allOut : out memRegArray;
 			 reg_allOut : out regArray);
-	end component;
+	end component;  -- data path component
 	
 	signal state_In,state_Out : integer range 0 to 40;
 	signal mux_PC,w_PC,w_memory,w_IR: std_logic;
@@ -63,9 +63,10 @@ architecture Form of IITB_proc is
 	signal mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3: std_logic_vector(1 downto 0);
 	signal Counter: std_logic_vector(2 downto 0);
 	signal IR_out,T1_out,T2_out: std_logic_vector(15 downto 0);
-	signal C_out,Z_out: std_logic;
+	signal C_out,Z_out: std_logic; --declaring signals required
 
 begin
+		-- mapping signals to ports
 		state : StateFunc
 			port map(state_In, IR_out, T1_out, T2_out, C_out, Z_out, state_Out);
 		output : OutputFunc
@@ -77,6 +78,7 @@ begin
 			port map(clk,w_PC, w_memory, w_IR, w_T1, w_T2, w_T3, w_RF, w_C, w_Z,Control_bit_ALU,
           mux_PC, mux_T1, mux_memory, mux_A1, mux_ALU_A, mux_ALU_B, mux_A3, mux_RD3,
 		    Counter,IR_out, T1_out, T2_out, currT3, C_out, Z_out,currPC,currMemAddr,currMemAll,currRegAll);
+		-- assigning output signals
 		currState <= state_In;
 		currIR <= IR_out;
 		currT1 <= T1_out;
