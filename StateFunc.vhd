@@ -27,7 +27,7 @@ begin
 				state_Out <= 12;
 			elsif( IR_out(15 downto 12)="1001" or IR_out(15 downto 12)="1000") then
 				state_Out <= 7;
-			elsif( IR_out(15 downto 12)="0111" or IR_out(15 downto 12)="0111") then
+			elsif( IR_out(15 downto 12)="0111" or IR_out(15 downto 12)="0110") then
 				state_Out <= 9;
 			elsif( IR_out(15 downto 12)="0011") then
 				state_Out <= 6;

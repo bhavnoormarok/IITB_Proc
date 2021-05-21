@@ -41,13 +41,25 @@ architecture Arch of Memory is --declaring architecture
 --		26 => x"ffff",
 --		27 => x"0012",
 
-		0 => x"306b",
-		1 => x"32b8",
-		2 => x"0050",
-		3 => x"049a",
-		4 => x"049a",
-		5 => x"0000",
-		6 => x"3802",
+----For checking JLR-------
+--		0 => x"306b",
+--		1=> x"32b8",
+--		2=> x"9040",
+--		3=> x"9040",
+		----------------------
+		
+		----For checking SA-------
+		0 => x"300b",
+		1=> x"3261",
+		2=> x"7000",
+		
+		------------
+--		1 => x"32b8",
+--		2 => x"0050",
+--		3 => x"049a",
+--		4 => x"049a",
+--		5 => x"0000",
+--		6 => x"3802",
 		others => x"0000"); -- initialise with instructions
 
 begin
