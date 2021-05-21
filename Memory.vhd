@@ -18,9 +18,9 @@ end entity;
 architecture Arch of Memory is --declaring architecture
 	
 	signal memArray : memRegArray := (
---		0 => x"104b",
---		1 => x"6000",
---		2 => x"c042",
+--		0 => x"306b",
+--		1 => x"32b8",
+--		2 => x"0050",
 --		3 => x"0210",
 --		4 => x"c4c3",
 --		7 => x"13be",
@@ -41,11 +41,11 @@ architecture Arch of Memory is --declaring architecture
 --		26 => x"ffff",
 --		27 => x"0012",
 
-		0 => x"3201",
-		1 => x"3405",
-		2 => x"3A04",
-		3 => x"8603",
-		4 => x"0000",
+		0 => x"306b",
+		1 => x"32b8",
+		2 => x"0050",
+		3 => x"049a",
+		4 => x"049a",
 		5 => x"0000",
 		6 => x"3802",
 		others => x"0000"); -- initialise with instructions

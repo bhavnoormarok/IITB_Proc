@@ -13,7 +13,9 @@ entity IITB_Proc is
 			currState : out integer range 0 to 40;
 			currPC,currMemAddr,currT1,currT2,currT3,currIR : out std_logic_vector(15 downto 0);
 			currMemAll : out memRegArray;
-			currRegAll : out regArray);
+			currRegAll : out regArray;
+			currC : out std_logic;
+			currZ : out std_logic);
 end entity;
 
 architecture Form of IITB_proc is 
@@ -79,4 +81,6 @@ begin
 		currIR <= IR_out;
 		currT1 <= T1_out;
 		currT2 <= T2_out;
+		currC  <= C_out;
+		currZ  <= Z_out;
 end Form;
