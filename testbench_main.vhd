@@ -34,5 +34,5 @@ begin
 	rst <= '1',
 			 '0' after 20 ns;
 	finished <= '0',
-			 '1' after 120 ns;
+			 '1' after 400 ns;
 end architecture;

@@ -54,8 +54,7 @@ architecture Form of IITB_proc is
 			 reg_allOut : out regArray);
 	end component;
 	
-	signal operation_In,operation_Out : integer range 0 to 20;
-	signal state_In,state_Out : integer range 0 to 20;
+	signal state_In,state_Out : integer range 0 to 40;
 	signal mux_PC,w_PC,w_memory,w_IR: std_logic;
 	signal mux_T1,w_T1,w_T2,w_T3: std_logic;
 	signal Control_bit_ALU,w_RF,w_C,w_Z: std_logic;

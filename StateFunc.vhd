@@ -16,7 +16,9 @@ architecture reader of StateFunc is
 begin
 	process (state_In, IR_out, T1_out, T2_out, C_out, Z_out)
 	begin
-		if (state_In=0) then 
+		if (state_In=0) then
+			state_Out <= 40;
+		elsif (state_In=40) then 
 			if (IR_out(15 downto 12)="0000" or IR_out(15 downto 12)="0010" or IR_out(15 downto 12) = "1100") then 
 				state_Out <= 2;
 			elsif (IR_out(15 downto 12) = "0001") then
